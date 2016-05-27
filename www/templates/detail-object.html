@@ -1,0 +1,17 @@
+<ion-view view-title="Account">
+    <ion-content>
+        <div class="info">
+            <h4>{{ objectDetails.title }}</h4>
+            <p>{{ objectDetails.price_formatted }}</p>
+
+            <img ng-src="{{ objectDetails.img_url }}">
+
+            <p>bedroom: {{ objectDetails.bedroom_number }}</p>
+            <p>bathroom: {{ objectDetails.bathroom_number }}</p>
+
+            <p>
+                {{ objectDetails.summary }}
+            </p>
+        </div>
+    </ion-content>
+</ion-view>
