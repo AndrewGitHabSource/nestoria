@@ -56,6 +56,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                         controller: 'detailController'
                     }
                 }
+            })
+
+            .state('main.favorite', {
+                url: '/favorite/:id',
+                views: {
+                    'favorite': {
+                        templateUrl: 'templates/favorite.html',
+                        controller: 'favoriteController'
+                    }
+                }
             });
 
         // if none of the above states are matched, use this as the fallback

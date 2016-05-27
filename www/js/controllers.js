@@ -1,11 +1,11 @@
 angular.module('starter.controllers', [])
-    .controller('mainController', ['$scope', '$rootScope', 'restService', 'constCollection', function ($scope,
-                                                                                                       $rootScope, restService, constCollection) {
+    .controller('mainController', ['$scope', '$rootScope', 'restService', 'constCollection', 'exchange', function ($scope,
+               $rootScope, restService, constCollection, exchange) {
         var searchParameters = constCollection.parameters,
             countSearchResult = 3;
 
         $rootScope.objects = {};
-        $rootScope.searchRequest = {search: ""};
+        $scope.searchRequest = {search: ""};
         $scope.recentSearches = [];
         $scope.recentSearchesSwitch = true;
 
@@ -19,15 +19,9 @@ angular.module('starter.controllers', [])
 
         function init() {
             $scope.recentSearches = localStorage.getItem("recentSearches") ? JSON.parse(localStorage.getItem("recentSearches")) : [];
-
-            // if($stateParams.id){
-            //     $scope.detailObject = $scope.objects[$stateParams.id];
-            //     console.log($scope.detailObject);
-            // }
         }
 
         function success(response) {
-            console.log(response);
             var length = 0;
 
             $scope.recentSearchesSwitch = false;
@@ -35,18 +29,20 @@ angular.module('starter.controllers', [])
             if (response.data.response.listings) {
                 $rootScope.objects = response.data.response.listings;
                 length = response.data.response.listings.length;
+
+                exchange.updateValue($rootScope.objects);
             }
 
             if ($scope.recentSearches.length < countSearchResult) {
                 $scope.recentSearches.push({
-                    'request': $rootScope.searchRequest.search,
+                    'request': $scope.searchRequest.search,
                     'length': length
                 });
             }
             else {
                 $scope.recentSearches = $scope.recentSearches.slice(-2);
                 $scope.recentSearches.push({
-                    'request': $rootScope.searchRequest.search,
+                    'request': $scope.searchRequest.search,
                     'length': length
                 });
             }
@@ -60,7 +56,7 @@ angular.module('starter.controllers', [])
         /* search objects in nestoria */
         function search(searchForm) {
             delete searchParameters.centre_point;
-            searchParameters.place_name = $rootScope.searchRequest.search;
+            searchParameters.place_name = $scope.searchRequest.search;
 
             if (searchForm.$valid) {
                 restService.getObjects(searchParameters, success, error);
@@ -84,11 +80,34 @@ angular.module('starter.controllers', [])
                 });
             }
         }
-    }])
 
-    .controller('detailController', ['$rootScope', '$scope', 'restService', 'constCollection', '$stateParams',
-        function ($rootScope, $scope, restService, constCollection, $stateParams) {
-            if ($rootScope.objects) {
-                $scope.objectDetails = $rootScope.objects[$stateParams.id];
-            }
-        }]);
+    }])
+    .controller('detailController', ['$rootScope', '$scope', 'restService',
+    'constCollection', '$stateParams', 'exchange',
+        function ($rootScope, $scope, restService, constCollection, $stateParams, exchange) {
+            var temp = exchange.getValue();
+
+            $scope.objectDetails = temp[$stateParams.id];
+        }])
+
+    .controller('favoriteController', ['$scope', '$rootScope', '$stateParams', function ($scope, $rootScope, $stateParams) {
+        $scope.addFavorite = addFavorite();
+  
+        $scope.favorites = [];
+
+        if(localStorage.getItem('favoriteStorage')){
+            $scope.favorites = JSON.parse(localStorage.getItem('favoriteStorage'));
+        }
+
+        /* Functions */
+
+        /* Add object to favorites */
+        function addFavorite() {
+            // if($rootScope.objects){
+            //     $scope.favorites.push($rootScope.objects[$stateParams.id]);
+            // }
+            //
+            // localStorage.setItem("favoriteStorage", JSON.stringify($scope.favorites));
+        }
+    }]);
+

@@ -29,3 +29,15 @@ angular.module('starter.services', [])
     }
   };
 }]);
+
+angular.module('starter.services').factory('exchange', ['$http', function($http) {
+  var value = '';
+  return {
+    updateValue: function(parameter) {
+      value = parameter;
+    },
+    getValue: function() {
+      return value;
+    }
+  }
+}]);
