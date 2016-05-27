@@ -88,26 +88,32 @@ angular.module('starter.controllers', [])
             var temp = exchange.getValue();
 
             $scope.objectDetails = temp[$stateParams.id];
+
+            $scope.addFavorite = addFavorite();
+
+
+            /* Add object to favorites */
+            function addFavorite() {
+                var favorite = [];
+
+                if(localStorage.getItem('favoriteStorage')){
+                    favorite = JSON.parse(localStorage.getItem('favoriteStorage'));
+                }
+
+                console.log(favorite);
+
+                localStorage.setItem("favoriteStorage", JSON.stringify(temp[$stateParams.id]));
+            }
         }])
 
-    .controller('favoriteController', ['$scope', '$rootScope', '$stateParams', function ($scope, $rootScope, $stateParams) {
-        $scope.addFavorite = addFavorite();
-  
+    .controller('favoriteController', ['$scope', '$rootScope', '$stateParams', 'exchange', function ($scope, $rootScope, $stateParams, exchange) {
         $scope.favorites = [];
 
         if(localStorage.getItem('favoriteStorage')){
             $scope.favorites = JSON.parse(localStorage.getItem('favoriteStorage'));
         }
 
-        /* Functions */
+        // console.log($scope.favorites);
 
-        /* Add object to favorites */
-        function addFavorite() {
-            // if($rootScope.objects){
-            //     $scope.favorites.push($rootScope.objects[$stateParams.id]);
-            // }
-            //
-            // localStorage.setItem("favoriteStorage", JSON.stringify($scope.favorites));
-        }
     }]);
 

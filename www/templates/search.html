@@ -27,7 +27,7 @@
         <section ng-if="recentSearchesSwitch">
             <h4>Recent searches:</h4>
             <ion-list>
-                <ion-item ng-repeat="item in recentSearches">
+                <ion-item ng-repeat="item in recentSearches track by $index">
                     <p>{{ item.request }} <span>({{ item.length }})</span></p>
                 </ion-item>
             </ion-list>

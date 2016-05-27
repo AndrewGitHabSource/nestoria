@@ -3,7 +3,7 @@
         <section class="results-search">
             <h4>Please select a location below:</h4>
             <ion-list class="list-objects">
-                <ion-item ng-repeat="item in objects" href="#/main/detail/{{$index}}">
+                <ion-item ng-repeat="item in favorites" href="#/main/detail/{{$index}}">
                     <p>{{ item.title }}</p>
                 </ion-item>
             </ion-list>
