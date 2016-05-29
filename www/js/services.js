@@ -65,17 +65,24 @@ angular.module('starter.services', [])
 
 angular.module('starter.services').factory('favoriteFactory', ['restService', 'objectsFactory', '$q', '$stateParams',
     function (restService, objectsFactory, $q, $stateParams){
-        var favorite = [];
+        var favorites = [];
 
         if (localStorage.getItem('favoriteStorage')) {
-            favorite = JSON.parse(localStorage.getItem('favoriteStorage'));
+            favorites = JSON.parse(localStorage.getItem('favoriteStorage'));
         }
 
         return {
             saveFavorite: function(){
-                favorite.push(objectsFactory.getItemById($stateParams.id));
+                favorites.push(objectsFactory.getItemById($stateParams.id));
 
-                localStorage.setItem("favoriteStorage", JSON.stringify(favorite));
+                localStorage.setItem("favoriteStorage", JSON.stringify(favorites));
+            },
+
+            getFavorites: function(){
+                if (localStorage.getItem('favoriteStorage')) {
+                    favorites = JSON.parse(localStorage.getItem('favoriteStorage'));
+                }
+                return favorites;
             }
         }
 }]);

@@ -57,7 +57,6 @@ angular.module('starter.controllers', [])
                 });
             }
         }
-
     }])
 
     .controller('detailController', ['$rootScope', '$scope', 'objectsFactory',
@@ -74,13 +73,6 @@ angular.module('starter.controllers', [])
             }
         }])
 
-    .controller('favoriteController', ['$scope', '$rootScope', '$stateParams', function ($scope) {
-        $scope.favorites = [];
-
-        if (localStorage.getItem('favoriteStorage')) {
-            $scope.favorites = JSON.parse(localStorage.getItem('favoriteStorage'));
-        }
-
-        console.log($scope.favorites);
-
+    .controller('favoriteController', ['$scope', 'favoriteFactory', function ($scope, favoriteFactory) {
+        $scope.favorites = favoriteFactory.getFavorites();
     }]);
