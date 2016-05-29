@@ -1,0 +1,12 @@
+<ion-view view-title="favorite">
+    <ion-content>
+        <section class="results-search">
+            <h4>Please select a location below:</h4>
+            <ion-list class="list-objects">
+                <ion-item ng-repeat="item in favorites" href="#/main/detail/{{$index}}">
+                    <p>{{ item.title }}</p>
+                </ion-item>
+            </ion-list>
+        </section>
+    </ion-content>
+</ion-view>

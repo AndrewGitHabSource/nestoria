@@ -1,0 +1,59 @@
+/* Empty. Add your own CSS if you like */
+
+.bar .title.title-left{
+    text-align: center;
+}
+
+.form-error{
+    font: 14px Verdana;
+    color: red;
+}
+
+label{
+    position: relative;
+}
+
+label.required:after{
+    content: "*";
+    color: red;
+    position: absolute;
+    top: -2px;
+    right: -8px;
+}
+
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
+    border: 1px solid #4d4d4d;
+    display: inline;
+    vertical-align: top;
+    height: auto;
+    padding: 4px;
+}
+
+form{
+    margin-bottom: 8px;
+}
+
+.info{
+    text-align: center;
+    margin: 4px 0;
+}
+
+button{
+    font: 20px Verdana;
+    padding: 20px 40px;
+    margin: 10px auto;
+    text-align: center;
+    display: inline-block;
+}
+
+/*.results-search{*/
+    /*position: relative;*/
+/*}*/
+
+.loader{
+    position: fixed;
+    top: 50%;
+    margin: 0 0 0 -90px;
+    left: 50%;
+    z-index: 22;
+}

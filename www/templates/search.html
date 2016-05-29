@@ -1,0 +1,53 @@
+<ion-view view-title="PropertyCross">
+    <ion-content class="padding">
+
+        <loader show="showLoader"></loader>
+
+        <a ui-sref="app.favorites">Favorite</a>
+
+        <h4>
+            Welcome to Nestoria, a site designed to make finding a property as easy as using a search engine.
+        </h4>
+
+        <p>
+            Here at Nestoria we spend a lot of our time working on ways to improve the algorithm for
+            determining which results to show you when you perform a search. It's a complex equation based on
+            location, quality of the listing, and our own secret parameters. Our technical team is constantly
+            testing new improvements. The sum of these efforts is what we call 'Nestoria Rank'.
+        </p>
+
+        <form novalidate autocomplete="off" name="searchForm" ng-submit="search(searchForm)">
+            <label for="search" class="required">Search</label><br/>
+            <input type="text" id="search" required ng-model="searchRequest.search" name="search">
+            <input type="submit" value="GO">
+
+            <div class="error-wrap" ng-show="searchForm.$submitted || searchForm.search.$touched">
+                <div class="form-error" ng-show="searchForm.search.$error.required">*Required</div>
+            </div>
+        </form>
+        <button ng-click="goUserLocation()">My location</button>
+
+        <section ng-if="recentSearchesSwitch">
+            <h4>Recent searches:</h4>
+            <ion-list>
+                <ion-item ng-repeat="item in recentSearches track by $index">
+                    <p>{{ item.request }} <span>({{ item.length }})</span></p>
+                </ion-item>
+            </ion-list>
+        </section>
+
+        <section ng-if="!recentSearchesSwitch" class="results-search">
+            <h4>Please select a location below:</h4>
+            <ion-list class="list-objects">
+                <ion-item ng-repeat="item in objects track by $index" href="#/app/detail/{{$index}}">
+                    <p>{{ item.title }}</p>
+                </ion-item>
+            </ion-list>
+            <button ng-click="prevPage()">PREV</button>
+
+            <button ng-click="nextPage()">NEXT</button>
+
+        </section>
+
+    </ion-content>
+</ion-view>
