@@ -7,17 +7,15 @@ angular
 
             return function () {
 
-
                 this.get = get;
                 this.query = query;
-                this.put = put;
-                this.post = post;
-                this.remove = remove;
+
+
 
 
                 /* FUNCTIONS */
 
-                /* Получаем данные с сервера */
+                /* Get data from server */
                 function init(url, params, data, successFunction, errorFunction, headers) {
 
                     var emptyFunc = function () {},
@@ -59,45 +57,6 @@ angular
                                 }
                             },
                             isArray: true
-                        },
-                        put: {
-                            method: 'PUT',
-                            headers: headers,
-                            interceptor: {
-                                response: successFunction,
-                                responseError: function (resp) {
-                                    errorFunction(resp);
-                                    if (resp.status === 401) {
-                                        alert('bad token');
-                                    }
-                                }
-                            }
-                        },
-                        post: {
-                            method: 'POST',
-                            headers: headers,
-                            interceptor: {
-                                response: successFunction,
-                                responseError: function (resp) {
-                                    errorFunction(resp);
-                                    if (resp.status === 401) {
-                                        alert('bad token');
-                                    }
-                                }
-                            }
-                        },
-                        delete: {
-                            method: 'DELETE',
-                            headers: headers,
-                            interceptor: {
-                                response: successFunction,
-                                responseError: function (resp) {
-                                    errorFunction(resp);
-                                    if (resp.status === 401) {
-                                        alert('bad token');
-                                    }
-                                }
-                            }
                         }
                     });
 
@@ -114,21 +73,6 @@ angular
 
                     return init(url, params, data, successFunction, errorFunction, headers).query(data);
 
-                }
-
-                function put(url, params, data, successFunction, errorFunction, headers) {
-
-                    return init(url, params, data, successFunction, errorFunction, headers).put(data);
-                }
-
-                function post(url, params, data, successFunction, errorFunction, headers) {
-
-                    return init(url, params, data, successFunction, errorFunction, headers).post(data);
-                }
-
-                function remove(url, params, data, successFunction, errorFunction, headers) {
-
-                    return init(url, params, data, successFunction, errorFunction, headers).delete(data);
                 }
             };
 

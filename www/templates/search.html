@@ -1,6 +1,7 @@
 <ion-view view-title="PropertyCross">
     <ion-content class="padding">
-        <a  ui-sref="main.favorite">Favorite</a>
+
+        <a ui-sref="app.favorites">Favorite</a>
 
         <h4>
             Welcome to Nestoria, a site designed to make finding a property as easy as using a search engine.
@@ -36,10 +37,11 @@
         <section ng-if="!recentSearchesSwitch" class="results-search">
             <h4>Please select a location below:</h4>
             <ion-list class="list-objects">
-                <ion-item ng-repeat="item in objects" href="#/main/detail/{{$index}}">
+                <ion-item ng-repeat="item in objects track by $index" href="#/app/detail/{{$index}}">
                     <p>{{ item.title }}</p>
                 </ion-item>
             </ion-list>
+            <a ng-click="nextPage()">NEXT</a>
         </section>
 
     </ion-content>

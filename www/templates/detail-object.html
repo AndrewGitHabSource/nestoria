@@ -3,11 +3,13 @@
         <div class="info">
             <button ng-click="addFavorite()">Add to favorites</button>
             <h4>{{ objectDetails.title }}</h4>
+
             <p>{{ objectDetails.price_formatted }}</p>
 
             <img ng-src="{{ objectDetails.img_url }}">
 
             <p>bedroom: {{ objectDetails.bedroom_number }}</p>
+
             <p>bathroom: {{ objectDetails.bathroom_number }}</p>
 
             <p>

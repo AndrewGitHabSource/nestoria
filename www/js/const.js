@@ -8,7 +8,7 @@ angular.module('starter.controllers').constant("constCollection", {
         "page": "1",
         "place_name": "",
         "centre_point": "",
-        "callback" : "JSON_CALLBACK"
+        "callback": "JSON_CALLBACK"
     },
     "url": "http://api.nestoria.co.uk/api"
 });
