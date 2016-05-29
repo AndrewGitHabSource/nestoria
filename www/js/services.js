@@ -12,10 +12,6 @@ angular.module('starter.services', [])
                 return objects;
             },
 
-            set: function (replace) {
-                objects = replace;
-            },
-
             getItemById: function (id) {
                 return objects[id];
             },

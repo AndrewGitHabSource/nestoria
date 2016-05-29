@@ -1,7 +1,7 @@
+<loader show="showLoader"></loader>
+
 <ion-view view-title="PropertyCross">
     <ion-content class="padding">
-
-        <loader show="showLoader"></loader>
 
         <a ui-sref="app.favorites">Favorite</a>
 
@@ -30,7 +30,7 @@
         <section ng-if="recentSearchesSwitch">
             <h4>Recent searches:</h4>
             <ion-list>
-                <ion-item ng-repeat="item in recentSearches track by $index">
+                <ion-item ng-repeat="item in recentSearches track by $index" ng-click="openSearch(item)">
                     <p>{{ item.request }} <span>({{ item.length }})</span></p>
                 </ion-item>
             </ion-list>
@@ -46,7 +46,6 @@
             <button ng-click="prevPage()">PREV</button>
 
             <button ng-click="nextPage()">NEXT</button>
-
         </section>
 
     </ion-content>

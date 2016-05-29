@@ -14,15 +14,14 @@ angular.module('starter.controllers', [])
         $scope.nextPage = nextPage;
         $scope.prevPage = prevPage;
         $scope.goUserLocation = goUserLocation;
+        $scope.openSearch = openSearch;
 
 
 
         init();
 
 
-        //$scope.$watch(function(){
-        //    $scope.showLoader = objectsFactory.showLoader;
-        //});
+
 
         /* Functions */
 
@@ -33,35 +32,38 @@ angular.module('starter.controllers', [])
 
         function getObjectFromServer(response) {
             $rootScope.objects = response;
-            objectsFactory.set(response);
             objectsFactory.setRecentSearches(response, $scope.searchRequest.search);
             $scope.recentSearchesSwitch = false;
             $scope.showLoader = false;
         }
 
         /* search objects in nestoria */
-        function search(searchForm) {
+        function search(searchForm, triger) {
+            triger = triger || false;
             searchParameters.page = 1;
             delete searchParameters.centre_point;
             searchParameters.place_name = $scope.searchRequest.search;
 
-            if (searchForm.$valid) {
+            if (searchForm.$valid || triger) {
+                $scope.showLoader = true;
                 promiseObject = objectsFactory.getObjects(searchParameters);
                 promiseObject.then(getObjectFromServer, function (err) {
 
                 }, function (progress) {
                     $scope.showLoader = true;
-                    $scope.$apply();
-                    console.log(11);
-
-                    console.log(progress);
                 });
             }
+        }
+
+        function openSearch(elem){
+            $scope.searchRequest.search = elem.request;
+            $scope.search(elem.request, true);
         }
 
         function nextPage(){
              searchParameters.page++;
 
+             $scope.showLoader = true;
              promiseObject = objectsFactory.getObjects(searchParameters);
              promiseObject.then(getObjectFromServer);
         }
@@ -70,6 +72,7 @@ angular.module('starter.controllers', [])
             if(searchParameters.page > 1){
                 searchParameters.page--;
 
+                $scope.showLoader = true;
                 promiseObject = objectsFactory.getObjects(searchParameters);
                 promiseObject.then(getObjectFromServer);
             }
@@ -101,7 +104,6 @@ angular.module('starter.controllers', [])
             $scope.objectDetails = objectsFactory.getItemById([$stateParams.id]);
 
             $scope.addFavorite = addFavorite;
-
 
             /* Add object to favorites */
             function addFavorite() {
