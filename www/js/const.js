@@ -7,6 +7,8 @@ angular.module('starter.controllers').constant("constCollection", {
         "listing_type": "buy",
         "page": "1",
         "place_name": "",
-        "centre_point": ""
-    }
+        "centre_point": "",
+        "callback" : "JSON_CALLBACK"
+    },
+    "url": "http://api.nestoria.co.uk/api"
 });

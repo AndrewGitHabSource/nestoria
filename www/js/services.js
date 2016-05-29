@@ -1,43 +1,81 @@
 angular.module('starter.services', [])
 
-.factory('restService', ['$http', function($http) {
-  return {
-    getObjects: function(searchProperty, callbackSuccess, callbackError) {
-      var url = "";
+    .factory('objectsFactory', ['restService', 'constCollection', '$q', function (restService, constCollection, $q) {
+        var rest = new restService(),
+            objects = [],
+            countSearchResult = 3,
+            recentSearches = [];
 
-      function formedUrl() {
-        var mainUrl = 'http://api.nestoria.co.uk/api?country=';
+        return {
 
-        url = mainUrl + searchProperty.country;
+            get: function () {
+                return objects;
+            },
 
-        for(var key in searchProperty){
-          if(key == 'country') continue;
+            set: function (replace) {
+                objects = replace;
+            },
 
-          url += '&' + key + '=' + searchProperty[key];
+            getItemById: function (id) {
+                return objects[id];
+            },
+
+            getObjects: function (searchProperty) {
+                var deferred = $q.defer();
+                rest.get(constCollection, searchProperty, {}, success, error);
+
+                function success(data) {
+                    objects = data.data.response.listings;
+                    deferred.resolve(data.data.response.listings);
+                }
+
+                function error(data) {
+                    deferred.reject(data);
+                }
+
+                return deferred.promise;
+            },
+
+            setRecentSearches: function (response, searchRequest) {
+                var length = 0;
+
+                recentSearches = localStorage.getItem("recentSearches") ? JSON.parse(localStorage.getItem("recentSearches")) : [];
+
+                if (response) {
+                    length = response.length;
+                }
+
+                if (recentSearches.length < countSearchResult) {
+                    recentSearches.push({
+                        'request': searchRequest,
+                        'length': length
+                    });
+                }
+                else {
+                    recentSearches.unshift({
+                        'request': searchRequest,
+                        'length': length
+                    });
+                    recentSearches.pop();
+                }
+                localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+            }
+        };
+    }]);
+
+angular.module('starter.services').factory('favoriteFactory', ['restService', 'objectsFactory', '$q', '$stateParams',
+    function (restService, objectsFactory, $q, $stateParams){
+        var favorite = [];
+
+        if (localStorage.getItem('favoriteStorage')) {
+            favorite = JSON.parse(localStorage.getItem('favoriteStorage'));
         }
 
-        url += "&callback=JSON_CALLBACK";
-      }
+        return {
+            saveFavorite: function(){
+                favorite.push(objectsFactory.getItemById($stateParams.id));
 
-      formedUrl();
-
-      $http({method: 'jsonp', url: url, cache:false})
-          .then(
-              callbackSuccess,
-              callbackError
-          );
-    }
-  };
-}]);
-
-angular.module('starter.services').factory('exchange', ['$http', function($http) {
-  var value = '';
-  return {
-    updateValue: function(parameter) {
-      value = parameter;
-    },
-    getValue: function() {
-      return value;
-    }
-  }
+                localStorage.setItem("favoriteStorage", JSON.stringify(favorite));
+            }
+        }
 }]);

@@ -1,8 +1,8 @@
 angular.module('starter.controllers', [])
-    .controller('mainController', ['$scope', '$rootScope', 'restService', 'constCollection', 'exchange', function ($scope,
-               $rootScope, restService, constCollection, exchange) {
+    .controller('mainController', ['$scope', '$rootScope', 'objectsFactory', 'constCollection', function ($scope,
+               $rootScope, objectsFactory, constCollection) {
         var searchParameters = constCollection.parameters,
-            countSearchResult = 3;
+            promiseObject;
 
         $rootScope.objects = {};
         $scope.searchRequest = {search: ""};
@@ -18,39 +18,14 @@ angular.module('starter.controllers', [])
         init();
 
         function init() {
-            $scope.recentSearches = localStorage.getItem("recentSearches") ? JSON.parse(localStorage.getItem("recentSearches")) : [];
+            $scope.recentSearches = JSON.parse(localStorage.getItem("recentSearches"));
         }
 
-        function success(response) {
-            var length = 0;
-
+        function getObjectFromServer(response) {
+            $rootScope.objects = response;
+            objectsFactory.set(response);
+            objectsFactory.setRecentSearches(response, $scope.searchRequest.search);
             $scope.recentSearchesSwitch = false;
-
-            if (response.data.response.listings) {
-                $rootScope.objects = response.data.response.listings;
-                length = response.data.response.listings.length;
-
-                exchange.updateValue($rootScope.objects);
-            }
-
-            if ($scope.recentSearches.length < countSearchResult) {
-                $scope.recentSearches.push({
-                    'request': $scope.searchRequest.search,
-                    'length': length
-                });
-            }
-            else {
-                $scope.recentSearches = $scope.recentSearches.slice(-2);
-                $scope.recentSearches.push({
-                    'request': $scope.searchRequest.search,
-                    'length': length
-                });
-            }
-            localStorage.setItem('recentSearches', JSON.stringify($scope.recentSearches.reverse()));
-        }
-
-        function error(response) {
-            // console.error(response);
         }
 
         /* search objects in nestoria */
@@ -59,7 +34,8 @@ angular.module('starter.controllers', [])
             searchParameters.place_name = $scope.searchRequest.search;
 
             if (searchForm.$valid) {
-                restService.getObjects(searchParameters, success, error);
+                promiseObject = objectsFactory.getObjects(searchParameters);
+                promiseObject.then(getObjectFromServer);
             }
         }
 
@@ -76,44 +52,35 @@ angular.module('starter.controllers', [])
                     delete searchParameters.place_name;
                     searchParameters.centre_point = latitude + ',' + longitude;
 
-                    restService.getObjects(searchParameters, success, error);
+                    promiseObject = objectsFactory.getObjects(searchParameters);
+                    promiseObject.then(getObjectFromServer);
                 });
             }
         }
 
     }])
-    .controller('detailController', ['$rootScope', '$scope', 'restService',
-    'constCollection', '$stateParams', 'exchange',
-        function ($rootScope, $scope, restService, constCollection, $stateParams, exchange) {
-            var temp = exchange.getValue();
 
-            $scope.objectDetails = temp[$stateParams.id];
+    .controller('detailController', ['$rootScope', '$scope', 'objectsFactory',
+        'constCollection', '$stateParams', 'favoriteFactory',
+        function ($rootScope, $scope, objectsFactory, constCollection, $stateParams, favoriteFactory) {
+            $scope.objectDetails = objectsFactory.getItemById([$stateParams.id]);
 
-            $scope.addFavorite = addFavorite();
+            $scope.addFavorite = addFavorite;
 
 
             /* Add object to favorites */
             function addFavorite() {
-                var favorite = [];
-
-                if(localStorage.getItem('favoriteStorage')){
-                    favorite = JSON.parse(localStorage.getItem('favoriteStorage'));
-                }
-
-                console.log(favorite);
-
-                localStorage.setItem("favoriteStorage", JSON.stringify(temp[$stateParams.id]));
+                favoriteFactory.saveFavorite();
             }
         }])
 
-    .controller('favoriteController', ['$scope', '$rootScope', '$stateParams', 'exchange', function ($scope, $rootScope, $stateParams, exchange) {
+    .controller('favoriteController', ['$scope', '$rootScope', '$stateParams', function ($scope) {
         $scope.favorites = [];
 
-        if(localStorage.getItem('favoriteStorage')){
+        if (localStorage.getItem('favoriteStorage')) {
             $scope.favorites = JSON.parse(localStorage.getItem('favoriteStorage'));
         }
 
-        // console.log($scope.favorites);
+        console.log($scope.favorites);
 
     }]);
-
