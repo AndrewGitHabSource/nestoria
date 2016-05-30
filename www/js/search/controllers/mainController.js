@@ -92,24 +92,4 @@ angular.module('starter.controllers', [])
                 });
             }
         }
-    }])
-
-    .controller('detailController', ['$rootScope', '$scope', 'objectsFactory',
-        'constCollection', '$stateParams', 'favoriteFactory',
-        function ($rootScope, $scope, objectsFactory, constCollection, $stateParams, favoriteFactory) {
-            $scope.objectDetails = objectsFactory.getItemById([$stateParams.id]);
-
-            $scope.addFavorite = addFavorite;
-
-            /* Add object to favorites */
-            function addFavorite() {
-                favoriteFactory.saveFavorite();
-            }
-        }])
-
-    .controller('favoriteController', ['$scope', 'favoriteFactory', 'objectsFactory', '$stateParams', function ($scope,
-               favoriteFactory, objectsFactory, $stateParams) {
-        $scope.favorites = favoriteFactory.getFavorites($stateParams.id);
-
-        $scope.objectDetails = favoriteFactory.get([$stateParams.id]);
     }]);

@@ -21,12 +21,17 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/const.js"></script>
-    <script src="js/restServices.js"></script>
-    <script src="js/directives.js"></script>
+    <script src="js/common/app.js"></script>
+    <script src="js/search/controllers/mainController.js"></script>
+    <script src="js/detail/controllers/detailController.js"></script>
+    <script src="js/favorite/controllers/favoriteController.js"></script>
+
+    <script src="js/search/services/objectsFactory.js"></script>
+    <script src="js/favorite/services/favoriteFactory.js"></script>
+
+    <script src="js/common/const.js"></script>
+    <script src="js/common/restServices.js"></script>
+    <script src="js/search/directives/directives.js"></script>
   </head>
 
   <body ng-app="starter">
