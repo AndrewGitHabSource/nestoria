@@ -47,11 +47,7 @@ angular.module('starter.controllers', [])
             if (searchForm.$valid || triger) {
                 $scope.showLoader = true;
                 promiseObject = objectsFactory.getObjects(searchParameters);
-                promiseObject.then(getObjectFromServer, function (err) {
-
-                }, function (progress) {
-                    $scope.showLoader = true;
-                });
+                promiseObject.then(getObjectFromServer);
             }
         }
 
