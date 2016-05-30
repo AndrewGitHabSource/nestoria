@@ -1,19 +1,23 @@
 /* Empty. Add your own CSS if you like */
 
-.bar .title.title-left{
+.bar .title.title-left {
     text-align: center;
 }
 
-.form-error{
+h4 {
+    margin-top: 20px;
+}
+
+.form-error {
     font: 14px Verdana;
     color: red;
 }
 
-label{
+label {
     position: relative;
 }
 
-label.required:after{
+label.required:after {
     content: "*";
     color: red;
     position: absolute;
@@ -29,16 +33,16 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
     padding: 4px;
 }
 
-form{
+form {
     margin-bottom: 8px;
 }
 
-.info{
+.info {
     text-align: center;
     margin: 4px 0;
 }
 
-button{
+button {
     font: 20px Verdana;
     padding: 20px 40px;
     margin: 10px auto;
@@ -47,10 +51,10 @@ button{
 }
 
 /*.results-search{*/
-    /*position: relative;*/
+/*position: relative;*/
 /*}*/
 
-.loader{
+.loader {
     position: fixed;
     top: 50%;
     margin: 0 0 0 -90px;
