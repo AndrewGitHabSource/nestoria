@@ -1,7 +1,7 @@
 angular.module('starter').directive('loader', ['$rootScope', function () {
     return {
         restrict: 'E',
-        templateUrl: 'templates/directives/loader.html',
+        templateUrl: '/templates/directives/loader/templates/loader.html',
         scope: {
             show: "="
         },

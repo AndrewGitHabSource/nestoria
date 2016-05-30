@@ -26,7 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 url: '/search',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/search.html'
+                        templateUrl: 'templates/search/search.html'
                     }
                 }
             })
@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 url: '/detail/:id',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/detail-object.html',
+                        templateUrl: 'templates/detail/detail-object.html',
                         controller: 'detailController'
                     }
                 }
@@ -45,7 +45,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 url: '/detail-favorite/:id',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/detail-object.html',
+                        templateUrl: 'templates/detail/detail-object.html',
                         controller: 'favoriteController'
                     }
                 }
@@ -55,7 +55,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 url: '/favorites',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/favorites.html',
+                        templateUrl: 'templates/favorites/favorites.html',
                         controller: 'favoriteController'
                     }
                 }
